@@ -11,7 +11,7 @@
 </head>
 <body>
     <div id="topper">
-        <h1>Welcome Bret!</h1>
+        <h1>Welcome {{ request.session.first_name }}</h1>
         <a class = "toplink" href='/travels'>Back</a>
         <a class = "toplink" href='/logout'>Logout</a>
     </div>
@@ -19,7 +19,6 @@
     <table class="table table-striped userstable">
         <thead>
           <tr>
-            <th scope="col" class="idcolumn">id</th>
             <th scope="col">Destination</th>
             <th scope="col">Travel Start Date</th>
             <th scope="col">Travel End Date</th>
@@ -28,14 +27,13 @@
           </tr>
         </thead>
         <tbody>
-          {% for user in users %}
+          {% for my_trip in my_trips %}
             <tr>
-              <th scope="row" class="idcolumn">{{ user.id }}</th>
-              <td><a href='/users/{{ user.id }}'>{{ user.first_name }} {{ user.last_name }}</a></td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.created_at }}</td>
-              <td>Extra Column</td>
-              <td><a href='/users/{{ user.id }}' class="showeditdelete">Show</a> <a href='/users/{{ user.id }}/edit' class="showeditdelete">Edit</a> <a href='/users/{{ user.id }}/destroy' class="showeditdelete">Delete</a></td>
+              <td><a href='/view/{{ my_trip.id }}'>{{ my_trip.destination }}</a></td>
+              <td>{{ my_trip.travel_start_date }}</td>
+              <td>{{ my_trip.travel_end_date }}</td>
+              <td>{{ my_trip.plan }}</td>
+              <td><a href='/cancel/{{ my_trip.id }}' class="showeditdelete">Cancel</a> <a href='/delete/{{ my_trip.id }}' class="showeditdelete">Delete</a></td>
             </tr>
           {% endfor %}  
         </tbody>
@@ -44,7 +42,6 @@
     <table class="table table-striped userstable">
         <thead>
           <tr>
-            <th scope="col" class="idcolumn">id</th>
             <th scope="col">Destination</th>
             <th scope="col">Travel Start Date</th>
             <th scope="col">Travel End Date</th>
@@ -52,13 +49,12 @@
           </tr>
         </thead>
         <tbody>
-          {% for user in users %}
+          {% for trip in trips %}
             <tr>
-              <th scope="row" class="idcolumn">{{ user.id }}</th>
-              <td><a href='/users/{{ user.id }}'>{{ user.first_name }} {{ user.last_name }}</a></td>
-              <td>{{ user.email }}</td>
-              <td>{{ user.created_at }}</td>
-              <td><a href='/users/{{ user.id }}' class="showeditdelete">Show</a> <a href='/users/{{ user.id }}/edit' class="showeditdelete">Edit</a> <a href='/users/{{ user.id }}/destroy' class="showeditdelete">Delete</a></td>
+              <td><a href='/view/{{ trip.id }}'>{{ trip.destination }}</a></td>
+              <td>{{ trip.travel_start_date }}</td>
+              <td>{{ trip.travel_end_date }}</td>
+              <td><a href='/join/{{ trip.id }}' class="showeditdelete">Join</a></td>
             </tr>
           {% endfor %}  
         </tbody>

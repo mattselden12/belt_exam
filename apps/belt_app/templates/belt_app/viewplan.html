@@ -15,16 +15,17 @@
         <a class = "toplink" href='/logout'>Logout</a>
     </div>
     <div class = "section">
-        <h1>Black Rock, Nevada</h1>
-        <h3>Planned By:  Alex Grey</h3>
-        <h3>Description: Go To Burning Man</h3>
-        <h3>Travel Date From: August 27, 2019</h3>
-        <h3>Travel Date To: September 4, 2019</h3>
+        <h1>{{ this_trip.destination }}</h1>
+        <h3>Planned By: {{ this_trip.planned_by.first_name }} {{ this_trip.planned_by.last_name }}</h3>
+        <h3>Description: {{ this_trip.plan }}</h3>
+        <h3>Travel Date From: {{ this_trip.travel_start_date }}</h3>
+        <h3>Travel Date To: {{ this_trip.travel_end_date }}</h3>
     </div>
     <div class = "section">
         <h1>Other Users Joining the Trip</h1>
-        <h3>Bret Hart</h3>
-        <h3>Mick Foley</h3>
+        {% for user in travelers %}
+            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+        {% endfor %}
     </div>
 </body>
 </html>
