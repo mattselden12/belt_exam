@@ -33,7 +33,11 @@
               <td>{{ my_trip.travel_start_date }}</td>
               <td>{{ my_trip.travel_end_date }}</td>
               <td>{{ my_trip.plan }}</td>
-              <td><a href='/cancel/{{ my_trip.id }}' class="showeditdelete">Cancel</a> <a href='/delete/{{ my_trip.id }}' class="showeditdelete">Delete</a></td>
+              <td><a href='/cancel/{{ my_trip.id }}' class="showeditdelete">Cancel</a> 
+                {% if my_trip.planned_by.id == request.session.userid %}
+                <a href='/delete/{{ my_trip.id }}' class="showeditdelete">Delete</a>
+                {% endif %}
+              </td>
             </tr>
           {% endfor %}  
         </tbody>

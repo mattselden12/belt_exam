@@ -50,4 +50,4 @@ class Trip(models.Model):
     travelers = models.ManyToManyField(User, related_name = "trips")
     created_at = models.DateTimeField(auto_now_add = True)
     updated_at = models.DateTimeField(auto_now = True)
-    # objects = TripManager()
+    objects = TripManager()

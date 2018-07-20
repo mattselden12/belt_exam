@@ -10,7 +10,7 @@ def travels(request):
     if 'userid' in request.session:
         context={
             "trips": Trip.objects.all(),
-            "my_trips": Trip.objects.filter(travelers__id = request.session['userid'])
+            "my_trips": Trip.objects.filter(travelers__id = request.session['userid']),
         }
         return render(request, 'belt_app/homepage.html', context)
     else:
@@ -64,17 +64,18 @@ def register(request):
         return redirect('/travels')
 
 def create(request):
-    # errors = Trip.objects.trip_validator(request.POST)
-    # if len(errors)
-
-
-
-    this_user = User.objects.get(id=request.session['userid'])
-    Trip.objects.create(destination = request.POST['destination'], plan = request.POST['plan'], travel_start_date = request.POST['travel_start_date'], travel_end_date = request.POST['travel_end_date'], planned_by = this_user)
-    this_trip = Trip.objects.last()
-    this_trip.travelers.add(this_user)
-    this_trip.save()
-    return redirect('/travels')
+    errors = Trip.objects.trip_validator(request.POST)
+    if len(errors):
+        for tag, error in errors.items():
+            messages.error(request, error, extra_tags = tag)
+        return redirect('/addtrip')
+    else:
+        this_user = User.objects.get(id=request.session['userid'])
+        Trip.objects.create(destination = request.POST['destination'], plan = request.POST['plan'], travel_start_date = request.POST['travel_start_date'], travel_end_date = request.POST['travel_end_date'], planned_by = this_user)
+        this_trip = Trip.objects.last()
+        this_trip.travelers.add(this_user)
+        this_trip.save()
+        return redirect('/travels')
 
 def join(request, idnumber):
     this_user = User.objects.get(id=request.session['userid'])
