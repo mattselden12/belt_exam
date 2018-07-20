@@ -9,7 +9,7 @@ def index(request):
 def travels(request):
     if 'userid' in request.session:
         context={
-            "trips": Trip.objects.all(),
+            "trips": Trip.objects.exclude(travelers__id = request.session['userid']),
             "my_trips": Trip.objects.filter(travelers__id = request.session['userid']),
         }
         return render(request, 'belt_app/homepage.html', context)
