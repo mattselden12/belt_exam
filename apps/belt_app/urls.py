@@ -3,9 +3,8 @@ from . import views
 
 urlpatterns=[
     url(r'^$', views.index),
-    # url(r'^login/$', views.login),
-    # url(r'^register/$', views.register),
-    # url(r'^logoff/$', views.logoff),
-    
-    # url(r'^(?P<idnumber>\d+)/edit$', views.edit),
+    url(r'^travels/$', views.travels),
+    url(r'^addtrip/$', views.addtrip),
+    url(r'^view/(?P<idnumber>\d+)/$', views.viewplan),
+    url(r'^logout/$', views.logout),
 ]

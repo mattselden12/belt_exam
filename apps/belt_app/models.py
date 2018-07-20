@@ -32,33 +32,12 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
 
-# class Message(models.Model):
-#     message = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     messagepuser = models.ForeignKey(User, related_name = "usermessages")
-
-# class Comment(models.Model):
-#     comment = models.TextField()
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-#     commentpmessage = models.ForeignKey(Message, related_name = "messagecomments")
-#     commentpuser = models.ForeignKey(User, related_name = "usercomments")
-
-
-
-
-# class User(models.Model):
-#     first_name = models.CharField(max_length = 255)
-#     last_name = models.CharField(max_length = 255)
-#     email = models.CharField(max_length = 255)
-#     created_at = models.DateTimeField(auto_now_add=True)
-#     updated_at = models.DateTimeField(auto_now=True)
-
-# class Book(models.Model):
-#     name = models.CharField(max_length = 255)
-#     desc = models.CharField(max_length = 255)
-#     uploader = models.ForeignKey(User, related_name = "uploaded_books")
-#     liked_users = models.ManyToManyField(User, related_name = "liked_books")
-#     created_at = models.DateTimeField(auto_now_add= True)
-#     updated_at = models.DateTimeField(auto_now = True)
+class Trip(models.Model):
+    destination = models.CharField(max_length = 255)
+    plan = models.CharField(max_length = 255)
+    travel_start_date = models.CharField(max_length = 255)
+    travel_end_date = models.CharField(max_length = 255)
+    travelers = models.ManyToManyField(User, related_name = "trips")
+    planned_by = models.ForeignKey(User, related_name = "planned_trips")
+    created_at = models.DateTimeField(auto_now_add = True)
+    updated_at = models.DateTimeField(auto_now = True)

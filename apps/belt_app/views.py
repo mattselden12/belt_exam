@@ -8,6 +8,33 @@ from django.shortcuts import render, HttpResponse, redirect
 def index(request):
     return render(request, 'belt_app/index.html')
 
+def travels(request):
+    return render(request, 'belt_app/homepage.html')
+
+def addtrip(request):
+    return render(request, 'belt_app/addplan.html')
+
+def viewplan(request, idnumber):
+    return render(request, 'belt_app/viewplan.html')
+
+def logout(request):
+    # request.session.clear()
+    return redirect('/')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # def login(request):
 #     result = User.objects.filter(email = request.POST['email']).values()
 #     if len(result)>0:
@@ -46,9 +73,6 @@ def index(request):
 #         messages.error(request, 'NOT LOGGED IN', extra_tags = 'login')
 #         return redirect('/')
 
-# def logoff(request):
-#     request.session.clear()
-#     return redirect('/')
 
 
 
