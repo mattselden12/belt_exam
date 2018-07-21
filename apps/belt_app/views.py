@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from .models import User, Trip
+from datetime import datetime
 import bcrypt
 
 def index(request):
@@ -28,7 +29,7 @@ def viewplan(request, idnumber):
     if 'userid' in request.session:
         context={
             "this_trip": Trip.objects.get(id=idnumber),
-            "travelers": User.objects.filter(trips__id = idnumber).exclude(id=request.session['userid']),
+            "travelers": User.objects.filter(trips__id = idnumber).exclude(planned_trips__id = idnumber),
         }
         return render(request, 'belt_app/viewplan.html',context)
     else:
@@ -64,18 +65,27 @@ def register(request):
         return redirect('/travels')
 
 def create(request):
-    errors = Trip.objects.trip_validator(request.POST)
-    if len(errors):
-        for tag, error in errors.items():
-            messages.error(request, error, extra_tags = tag)
+    date_format = "%Y-%m-%d"
+    start = datetime.strptime(str(request.POST['travel_start_date']), date_format)
+    end = datetime.strptime(str(request.POST['travel_end_date']), date_format)
+    delta = end - start
+    daysdiff=int(delta.days)
+    if daysdiff < 0:
+        messages.error(request, 'End Date must be after Start Date')
         return redirect('/addtrip')
     else:
-        this_user = User.objects.get(id=request.session['userid'])
-        Trip.objects.create(destination = request.POST['destination'], plan = request.POST['plan'], travel_start_date = request.POST['travel_start_date'], travel_end_date = request.POST['travel_end_date'], planned_by = this_user)
-        this_trip = Trip.objects.last()
-        this_trip.travelers.add(this_user)
-        this_trip.save()
-        return redirect('/travels')
+        errors = Trip.objects.trip_validator(request.POST)
+        if len(errors):
+            for tag, error in errors.items():
+                messages.error(request, error, extra_tags = tag)
+            return redirect('/addtrip')
+        else:
+            this_user = User.objects.get(id=request.session['userid'])
+            Trip.objects.create(destination = request.POST['destination'], plan = request.POST['plan'], travel_start_date = request.POST['travel_start_date'], travel_end_date = request.POST['travel_end_date'], planned_by = this_user)
+            this_trip = Trip.objects.last()
+            this_trip.travelers.add(this_user)
+            this_trip.save()
+            return redirect('/travels')
 
 def join(request, idnumber):
     this_user = User.objects.get(id=request.session['userid'])

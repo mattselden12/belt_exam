@@ -26,10 +26,6 @@ class TripManager(models.Manager):
             errors["destination"] = "'Destination' field should not be blank."
         if len(postData["plan"])<1:
             errors["plan"] = "'Plan' field should not be blank."
-        if len(postData["travel_start_date"])<1:
-            errors["travel_start_date"] = "'Travel Date From' field should not be blank."
-        if len(postData["travel_end_date"])<1:
-            errors["travel_end_date"] = "'Travel Date To' field should not be blank."
         return errors
 
 class User(models.Model):
@@ -44,8 +40,8 @@ class User(models.Model):
 class Trip(models.Model):
     destination = models.CharField(max_length = 255)
     plan = models.CharField(max_length = 255)
-    travel_start_date = models.CharField(max_length = 255)
-    travel_end_date = models.CharField(max_length = 255)
+    travel_start_date = models.DateField(auto_now=False, auto_now_add=False)
+    travel_end_date = models.DateField(auto_now=False, auto_now_add=False)
     planned_by = models.ForeignKey(User, related_name = "planned_trips")
     travelers = models.ManyToManyField(User, related_name = "trips")
     created_at = models.DateTimeField(auto_now_add = True)
